@@ -7,13 +7,14 @@ class Participant(models.Model):
     # 기본 정보
     participant_id = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=100, verbose_name="이름")
-    phone_last4 = models.CharField(max_length=4, verbose_name="연락처 뒷자리")
+    phone = models.CharField(max_length=11, verbose_name="전화번호")  # 전체 번호 저장
+    phone_last4 = models.CharField(max_length=4, verbose_name="연락처 뒷자리")  # 하위 호환
     age = models.IntegerField()
     gender = models.CharField(max_length=10, choices=[
         ('male', '남성'),
         ('female', '여성')
     ])
-    education = models.CharField(max_length=50, blank=True)
+    education = models.CharField(max_length=50, blank=False)  # 필수값으로 변경
     vision = models.CharField(max_length=20, choices=[
         ('normal', '정상'),
         ('corrected', '교정')
@@ -26,8 +27,8 @@ class Participant(models.Model):
     # 실험 정보
     consent_agreed = models.BooleanField(default=False)
 
-    # 🆕 시간 필드 - 수동 설정 가능!
-    started_at = models.DateTimeField(default=timezone.now)  # ← auto_now_add 제거!
+    # 시간 필드 - 수동 설정 가능!
+    started_at = models.DateTimeField(default=timezone.now)
     completed_at = models.DateTimeField(null=True, blank=True)
 
     # 블록 순서 역균형화 (1: AI먼저, 2: 기존먼저)
