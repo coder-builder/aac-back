@@ -118,7 +118,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://223.130.131.18"
+    "http://223.130.131.18",
+    "aac-research.store",
+    "www.aac-research.store",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -135,3 +137,11 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     ],
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://223.130.131.18',
+    'http://aac-research.store',
+    'http://www.aac-research.store',
+    'https://aac-research.store',
+    'https://www.aac-research.store',
+]
