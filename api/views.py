@@ -38,9 +38,10 @@ def complete_experiment(request):
             )
 
         print(f'✅ Demographic data: {demographic_data}')
+        print(f'📞 Phone: {demographic_data.get("phone")}')
         print(f'📞 Phone last 4: {demographic_data.get("phone_last4")}')
 
-        # 🆕 시작/완료 시간 (프론트에서 받음)
+        # 시작/완료 시간 (프론트에서 받음)
         start_time = data.get('start_time')
         end_time = data.get('end_time')
 
@@ -55,7 +56,8 @@ def complete_experiment(request):
         participant = Participant.objects.create(
             participant_id=generate_participant_id(),
             name=demographic_data.get('name', ''),
-            phone_last4=demographic_data.get('phone_last4', ''),  # ← phone_last4 직접 사용!
+            phone=demographic_data.get('phone', ''),  # 전체 번호
+            phone_last4=demographic_data.get('phone_last4', ''),  # 뒷 4자리
             age=int(demographic_data.get('age', 0)),
             gender=demographic_data.get('gender', 'male'),
             vision=demographic_data.get('vision', 'normal'),
@@ -64,12 +66,13 @@ def complete_experiment(request):
             has_aac_education=demographic_data.get('has_aac_education', False),
             consent_agreed=True,
             block_order=demographic_data.get('block_order', 1),
-            started_at=started_at,  # ← 프론트 시간 사용!
-            completed_at=completed_at  # ← 프론트 시간 사용!
+            started_at=started_at,
+            completed_at=completed_at
         )
 
         print(f'✅ Created participant: {participant.participant_id}')
-        print(f'✅ Phone: {participant.phone_last4}')
+        print(f'✅ Phone: {participant.phone}')
+        print(f'✅ Phone last 4: {participant.phone_last4}')
 
         # 3. Practice Trials 저장
         practice_results = data.get('practice_results', [])
@@ -135,7 +138,8 @@ def create_participant(request):
         participant = Participant.objects.create(
             participant_id=participant_id,
             name=data.get('name', ''),
-            phone_last4=data.get('phone_last4', ''),
+            phone=data.get('phone', ''),  # 전체 번호
+            phone_last4=data.get('phone_last4', ''),  # 뒷 4자리
             age=data.get('age', 0),
             gender=data.get('gender', 'male'),
             vision=data.get('vision', 'normal'),
@@ -242,7 +246,7 @@ def get_preference(request, participant_id):
 
 
 # ========================================
-# 🆕 단어별 선호도 API
+# 단어별 선호도 API
 # ========================================
 
 @api_view(['POST'])
