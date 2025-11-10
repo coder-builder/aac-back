@@ -18,6 +18,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '223.130.131.18',
+    'aac-research.store',
+    'www.aac-research.store',
 ]
 
 # Application definition
